@@ -1388,6 +1388,13 @@ class Simple_Local_Avatars {
 	 */
 	public function sla_clear_user_cache() {
 		check_ajax_referer( 'sla_clear_cache_nonce', 'nonce' );
+
+		// Ensure this was run by a user with proper privileges.
+		if ( ! current_user_can( 'manage_options' ) ) {
+			// Match what `check_ajax_referer` does.
+			wp_die( -1, 403 );
+		}
+
 		$step = isset( $_REQUEST['step'] ) ? intval( $_REQUEST['step'] ) : 1;
 
 		// Setup defaults.
