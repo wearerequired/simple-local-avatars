@@ -1215,6 +1215,11 @@ class Simple_Local_Avatars {
 			$upload_path = wp_upload_dir();
 
 			foreach ( $old_avatars as $old_avatar ) {
+				// Ensure the avatar is in the uploads directory before we delete it.
+				if ( strpos( $old_avatar, $upload_path['baseurl'] ) !== 0 ) {
+					continue;
+				}
+
 				// derive the path for the file based on the upload directory
 				$old_avatar_path = str_replace( $upload_path['baseurl'], $upload_path['basedir'], $old_avatar );
 				if ( file_exists( $old_avatar_path ) ) {
