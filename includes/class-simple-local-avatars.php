@@ -1206,6 +1206,11 @@ class Simple_Local_Avatars {
 			unset( $old_avatars['media_id'], $old_avatars['full'] );
 		}
 
+		// Remove the blog_id key as we don't need to try deleting a file based on.
+		if ( array_key_exists( 'blog_id', $old_avatars ) ) {
+			unset( $old_avatars['blog_id'] );
+		}
+
 		if ( ! empty( $old_avatars ) ) {
 			$upload_path = wp_upload_dir();
 
