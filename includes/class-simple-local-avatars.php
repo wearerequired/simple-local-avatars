@@ -1323,7 +1323,12 @@ class Simple_Local_Avatars {
 			return;
 		}
 
-		$this->assign_new_user_avatar( $input['media_id'], $user->ID );
+		// Ensure this media_id is a valid attachment.
+		if ( ! wp_get_attachment_url( (int) $input['media_id'] ) ) {
+			return;
+		}
+
+		$this->assign_new_user_avatar( (int) $input['media_id'], $user->ID );
 	}
 
 	/**
