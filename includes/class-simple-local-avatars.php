@@ -1305,6 +1305,14 @@ class Simple_Local_Avatars {
 	 * @param object $user  The user making the request.
 	 */
 	public function set_avatar_rest( $input, $user ) {
+		// Ensure media_id is set and is a number.
+		if (
+			empty( $input['media_id'] ) ||
+			! is_numeric( $input['media_id'] )
+		) {
+			return;
+		}
+
 		$this->assign_new_user_avatar( $input['media_id'], $user->ID );
 	}
 
