@@ -1313,6 +1313,7 @@ class Simple_Local_Avatars {
 	 *
 	 * @param array  $input Input submitted via REST request.
 	 * @param object $user  The user making the request.
+	 * @return null|\WP_Error
 	 */
 	public function set_avatar_rest( $input, $user ) {
 		// Ensure media_id is set and is a number.
@@ -1320,12 +1321,12 @@ class Simple_Local_Avatars {
 			empty( $input['media_id'] ) ||
 			! is_numeric( $input['media_id'] )
 		) {
-			return;
+			return new \WP_Error( 'invalid_media_id', esc_html__( 'Request did not contain a valid media_id field.', 'simple-local-avatars' ) );
 		}
 
 		// Ensure this media_id is a valid attachment.
 		if ( ! wp_get_attachment_url( (int) $input['media_id'] ) ) {
-			return;
+			return new \WP_Error( 'invalid_media_id', esc_html__( 'Media ID did not match a valid attachment.', 'simple-local-avatars' ) );
 		}
 
 		$this->assign_new_user_avatar( (int) $input['media_id'], $user->ID );
