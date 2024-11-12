@@ -1335,6 +1335,11 @@ class Simple_Local_Avatars {
 			return new \WP_Error( 'invalid_media_id', esc_html__( 'Media ID did not match a valid attachment.', 'simple-local-avatars' ) );
 		}
 
+		// Ensure this attachment is associated with this user.
+		if ( (int) $attachment->post_author !== (int) $user->ID ) {
+			return new \WP_Error( 'invalid_media_id', esc_html__( 'This attachment was not uploaded by this user.', 'simple-local-avatars' ) );
+		}
+
 		$this->assign_new_user_avatar( (int) $input['media_id'], $user->ID );
 	}
 
