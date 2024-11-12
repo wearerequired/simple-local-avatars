@@ -1206,10 +1206,20 @@ class Simple_Local_Avatars {
 			unset( $old_avatars['media_id'], $old_avatars['full'] );
 		}
 
+		// Remove the blog_id key as we don't need to try deleting a file based on that.
+		if ( array_key_exists( 'blog_id', $old_avatars ) ) {
+			unset( $old_avatars['blog_id'] );
+		}
+
 		if ( ! empty( $old_avatars ) ) {
 			$upload_path = wp_upload_dir();
 
 			foreach ( $old_avatars as $old_avatar ) {
+				// Ensure the avatar is in the uploads directory before we delete it.
+				if ( strpos( $old_avatar, $upload_path['baseurl'] ) !== 0 ) {
+					continue;
+				}
+
 				// derive the path for the file based on the upload directory
 				$old_avatar_path = str_replace( $upload_path['baseurl'], $upload_path['basedir'], $old_avatar );
 				if ( file_exists( $old_avatar_path ) ) {
@@ -1303,9 +1313,23 @@ class Simple_Local_Avatars {
 	 *
 	 * @param array  $input Input submitted via REST request.
 	 * @param object $user  The user making the request.
+	 * @return null|\WP_Error
 	 */
 	public function set_avatar_rest( $input, $user ) {
-		$this->assign_new_user_avatar( $input['media_id'], $user->ID );
+		// Ensure media_id is set and is a number.
+		if (
+			empty( $input['media_id'] ) ||
+			! is_numeric( $input['media_id'] )
+		) {
+			return new \WP_Error( 'invalid_media_id', esc_html__( 'Request did not contain a valid media_id field.', 'simple-local-avatars' ) );
+		}
+
+		// Ensure this media_id is a valid attachment.
+		if ( ! wp_get_attachment_url( (int) $input['media_id'] ) ) {
+			return new \WP_Error( 'invalid_media_id', esc_html__( 'Media ID did not match a valid attachment.', 'simple-local-avatars' ) );
+		}
+
+		$this->assign_new_user_avatar( (int) $input['media_id'], $user->ID );
 	}
 
 	/**
