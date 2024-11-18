@@ -3,7 +3,7 @@ Contributors:      jakemgold, 10up, thinkoomph, jeffpaul, faisal03
 Donate link:       https://10up.com/plugins/simple-local-avatars-wordpress/
 Tags:              avatar, gravatar, user photos, users, profile
 Tested up to:      6.7
-Stable tag:        2.8.2
+Stable tag:        2.8.3
 License:           GPL-2.0-or-later
 License URI:       https://spdx.org/licenses/GPL-2.0-or-later.html
 
@@ -44,6 +44,11 @@ No.  Simple Local Avatars neither collects, stores, nor sends any PII data of vi
 1. Avatar upload field on a user profile page
 
 == Changelog ==
+
+= 2.8.3 - 2024-11-18 =
+* **Changed:** Only allow images that were uploaded by the same user be used when setting the avatar via a REST request (props [@dkotter](https://github.com/dkotter), [@justus12337](https://github.com/justus12337), [@faisal-alvi](https://github.com/faisal-alvi) via [#317](https://github.com/10up/simple-local-avatars/pull/317)).
+* **Fixed:** Only allow image files to be set as the avatar in REST requests (props [@dkotter](https://github.com/dkotter), [@justus12337](https://github.com/justus12337), [@faisal-alvi](https://github.com/faisal-alvi) via [#317](https://github.com/10up/simple-local-avatars/pull/317)).
+* **Security:** Bump `@10up/cypress-wp-utils` from 0.2.0 to 0.4.0, `@sentry/node` from 6.19.7 to 8.38.0, `@wordpress/env` from 9.2.0 to 10.11.0, `cypress` from 13.2.0 to 13.15.2, `cypress-mochawesome-reporter` from 3.6.0 to 3.8.2, `puppeteer-core` from 23.3.0 to 23.8.0 (props [@dkotter](https://github.com/dkotter) via [#319](https://github.com/10up/simple-local-avatars/pull/319)).
 
 = 2.8.2 - 2024-11-12 =
 * **Fixed:** Ensure dependencies are (actually) included properly in the release (props [@dkotter](https://github.com/dkotter) via [#316](https://github.com/10up/simple-local-avatars/pull/316)).
